@@ -13,9 +13,9 @@
         }
     }
 
-    FormHandler.prototype.addSumbitHandler = function (fn) {
+    FormHandler.prototype.addSubmitHandler = function (fn) {
         console.log('Setting submit handler for form');
-        this.$formElement.on('sumbit', function(event) {
+        this.$formElement.on('submit', function(event) {
             event.preventDefault();
 
             var data = {};
@@ -28,6 +28,22 @@
             this.reset();
             this.elements[0].focus();
         });
+    };
+
+    FormHandler.prototype.addInputHandler = function (fn) {
+        console.log('Setting input handler for form');
+        this.$formElement.on('input', '[name="emailAddress"]', function (event) {
+            // Event handler code will go here
+            var emailAddress = event.target.value;
+            var message = '';
+            if (fn(emailAddress)) {
+                event.target.setCustomValidity('');
+            } else {
+                message = emailAddress + ' is not an authorized email address!'
+                event.target.setCustomValidity(message);
+            }
+          });      
+    
     };
 
     App.FormHandler = FormHandler;
